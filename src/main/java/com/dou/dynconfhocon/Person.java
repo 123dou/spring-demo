@@ -1,4 +1,4 @@
-package com.dou.config.bean;
+package com.dou.dynconfhocon;
 
 import com.github.racc.tscg.TypesafeConfig;
 import com.google.inject.Inject;

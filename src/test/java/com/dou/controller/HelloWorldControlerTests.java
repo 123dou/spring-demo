@@ -1,5 +1,6 @@
 package com.dou.controller;
 
+import com.dou.archaius.ArchaiusController;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,7 +21,7 @@ public class HelloWorldControlerTests {
 
     @Before
     public void setUp() {
-        mvc = MockMvcBuilders.standaloneSetup(new HelloWorldController()).build();
+        mvc = MockMvcBuilders.standaloneSetup(new ArchaiusController()).build();
     }
 
     @Test

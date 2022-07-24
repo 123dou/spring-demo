@@ -1,8 +1,10 @@
 package com.dou.dynconfhocon;
 
+import cn.hutool.core.util.StrUtil;
 import com.google.common.eventbus.EventBus;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -10,8 +12,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashSet;
@@ -21,11 +23,12 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 @EnableScheduling
+@Slf4j
 public class DynConf {
 
     private static volatile Config conf;
 
-    private static final Set<String> CONFIG_PATH = new HashSet<>();
+//    private static final Set<String> CONFIG_PATH = new HashSet<>();
 
     private static final Set<Path> PATH_SET = new HashSet<>();
 
@@ -73,11 +76,15 @@ public class DynConf {
 
     private static void findAllMatchURL(Set<String> configPaths) throws IOException {
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+        log.error("classpath: {}", DynConf.class.getResource("/"));
         for (String configPath : configPaths) {
             Resource[] resources;
             resources = resolver.getResources(configPath);
             for (Resource resource : resources) {
-                PATH_SET.add(Paths.get(resource.getURI()));
+                URI uri = resource.getURI();
+                log.error("get uri: {}.", uri);
+                Path path = Paths.get(uri);
+                PATH_SET.add(path);
             }
         }
     }
